@@ -1,15 +1,20 @@
 'use client'
 
-import { ConnectButton, useActiveAccount, useReadContract } from "thirdweb/react"
-import{ chain} from '@/app/chain'
+import { ConnectButton, useReadContract } from "thirdweb/react"
+import { useActiveAccount } from "thirdweb/react";
+import{ chain } from '@/app/chain'
 import{ client} from '@/app/client'
 import { balanceOf } from "thirdweb/extensions/erc20"
 import { REWARD_TOKEN_ADDRESS, STAKE_TOKEN_ADDRESS } from "../utils/contracts"
 import { toEther } from "thirdweb"
 
 
+
 export const Stake=() =>{
     const account= useActiveAccount();
+    console.log("Account object:", account?.address );
+
+   
 
     const {data:stakingTokenBalance,isLoading:loadingStakeTokenBalance} = useReadContract(balanceOf,{
         contract:STAKE_TOKEN_ADDRESS,
@@ -18,8 +23,10 @@ export const Stake=() =>{
             enabled: !!account, 
         }
     });
-
-
+    console.log("Account address",account?.address);
+    console.log("Staking Token Balance:", stakingTokenBalance);
+    console.log("isloading211",loadingStakeTokenBalance)
+    
     const {data:rewardTokenBalance,isLoading:loadingrewardTokenBalance} = useReadContract(balanceOf,{
         contract:REWARD_TOKEN_ADDRESS,
         address:account?.address || "",
@@ -27,6 +34,8 @@ export const Stake=() =>{
             enabled: !!account, 
         }
     });
+    console.log("Reward Token Balance:", rewardTokenBalance);
+
 
 
     function truncate(value: string | number, decimalPlaces: number): number {
@@ -50,7 +59,7 @@ export const Stake=() =>{
                      <ConnectButton
                       client={client}
                       chain={chain}
-                      />
+                    />
                     <div>
                         {loadingStakeTokenBalance? (
                             <p>Loading....</p>

@@ -21,8 +21,7 @@ export default function Home() {
         client={client}
         chain={chain}
         /> */}
-        <Stake/>
-        
+        <Stake/>        
       </div>
 
     </div>
